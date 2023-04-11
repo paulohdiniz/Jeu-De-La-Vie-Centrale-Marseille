@@ -47,7 +47,7 @@ bool deviantVivant(char **matrice, int i, int j, int N, int M){
     }
     return true;
 }
-
+/*fonction juste pour prendre les nouvelles valeurs sans changer la matrice original */
 void attribuitionNouvelleMatrice(char **matrice,char **nouvelleMatrice, int N, int M){
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
@@ -73,70 +73,70 @@ void liberationMemoireChar(char **matrice, int N){
     free(matrice);
 }
 
-void affichage (char **MATRI, int m, int n)
+void affichage (char **MATRI, int N, int M)
 {
     int i, j;
     /* prèmiere ligne */
     i = 1;
     printf ("      %d", i);
-    for (i = 2; i < n; i++)
+    for (i = 2; i < M; i++)
     {
         printf ("%3d", i);
     }
-    i = n;
+    i = M;
     printf ("%3d\n", i);
     /* 2eme linha */
     i = 1;
     printf ("   +");
-    for (i = 1; i <= n; i++)
+    for (i = 1; i <= M; i++)
     {
         printf ("---");
     }
-    i = n + 1;
+    i = M + 1;
     printf ("-+\n");
     /* 1ere linha du tableau*/
     i = 1;
     printf ("%-3d|", i);
-    for (j = 0; j < n-1; j++)
+    for (j = 0; j < M-1; j++)
     {
         printf ("%3c", MATRI[0][j]);
     }
-    printf ("%3c |  1\n", MATRI[0][n-1]);
+    printf ("%3c |  1\n", MATRI[0][M-1]);
     /* 2eme ligne jusqu'a (m -1) */
-    for (i = 2; i < m; i++)
+    for (i = 2; i < N; i++)
     {
         printf ("%-3d|", i);
-        for (j = 0; j < n-1; j++)
+        for (j = 0; j < M-1; j++)
         {
             printf ("%3c", MATRI[i-1][j]);
         }
-        printf ("%3c |  %d\n", MATRI[i-1][j-1], i);
+        printf ("%3c |  %d\n", MATRI[i-1][M-1], i);
     }
-    /* m-ésima ligne */
-    i = m;
+    /* N-ésima ligne */
+    i = N;
     printf ("%-3d|", i);
-    for (j = 0; j < n; j++)
+    for (j = 0; j < M; j++)
     {
-        printf ("%3c", MATRI[i-m][j]);
+        printf ("%3c", MATRI[i-1][j]);
     }
-    printf ("%1c |  %d\n", MATRI[i-m][j], i);
+    printf ("%1c |  %d\n", MATRI[i-1][j], i);
     /* tiret au dessous du tableau */
     i = 1;
     printf ("   +");
-    for (i = 1; i <= n; i++)
+    for (i = 1; i <= M; i++)
     {
         printf ("---");
     }
-    i = n + 1;
+    i = M + 1;
     printf ("-+\n");
     /* derniere ligne avec les nb de la partie inferieur */
     i = 1;
     printf ("      %d", i);
-    for (i = 2; i < n; i++)
+    for (i = 2; i < M; i++)
     {
         printf ("%3d", i);
     }
-    i = n;
+    i = M;
     printf ("%3d\n", i);
 }
 
@@ -162,14 +162,6 @@ char** initMatrixChar(int N, int M){
    return tab; 
 }
 
-/*juste pour debugger les voisins */
-void fairematrice2(char **matrice1, char **matrice2, int N, int M) {
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-            matrice2[i][j] = 48 + counterVivantsAutour(matrice1,i,j,N,M);
-        }
-    }
-}
 int main(int argc, char **argv) {
     int N, M, K;
     if (argc >= 3){
@@ -183,16 +175,11 @@ int main(int argc, char **argv) {
     }
     
     char **MATRICE = initMatrixChar(N,M);
-    char **MATRICEAUTOUR = initMatrixChar(N,M);
     char **nouvelleMatrice = initMatrixChar(N,M);
-
-
 
     for (int i = 0; i < K; i++){
         affichage(MATRICE, N, M);
-        fairematrice2(MATRICE,MATRICEAUTOUR, N, M);
-        affichage(MATRICEAUTOUR, N, M);
-        printf ("\n");
+        printf ("\n\n");
         attribuitionNouvelleMatrice(MATRICE, nouvelleMatrice, N, M);
         copierMatrice(nouvelleMatrice,MATRICE, N, M); /*matrice va recevoir la nouvelle matrice que c'est la nouvelle composition */
         usleep(1000000);
